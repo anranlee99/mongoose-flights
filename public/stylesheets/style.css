@@ -31,3 +31,16 @@ td{
   /* padding: auto; */
   padding: 10px 5px;
 }
+
+#list a {
+  border-radius: 4px;
+  background-color: #dbd4d4;
+  padding: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+#add-destination-form {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+}

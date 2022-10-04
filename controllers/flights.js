@@ -3,11 +3,11 @@ const Flight = require('../models/flight');
 module.exports = {
     index,
     new: newFlight,
-    create
+    create,
+    show
 }
 
 function index(req, res){
-    console.log('new flight called')
 
     Flight.find({}, function(err, flights) {
         //sort by ascending dates
@@ -19,6 +19,31 @@ function index(req, res){
             flights
         })
     })
+}
+function show(req, res){
+    const newFlight = new Flight();
+    // Obtain the default date
+    const dt = newFlight.departs;
+    // Format the date for the value attribute of the input
+    let departsDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}`;
+    departsDate += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
+    
+    Flight.findById(req.params.id, function(err, flight) {
+        let validAirports = ['AUS', 'DFW', 'DEN', 'LAX', 'SAN']
+        validAirports = validAirports.filter(e => flight.airport !==e)
+        Object.values(flight.destination).forEach(dest => validAirports = validAirports.filter(e => e!==dest.airport))
+        //sort the arrival dates
+        flight.destination.sort(function(a,b){
+            return a.arrival-b.arrival;
+          });
+
+        res.render('flights/show', {
+            title: 'Showing Flight',
+            flight,
+            validAirports,
+            departsDate
+        });
+    });
 }
 
 function newFlight(req, res) {

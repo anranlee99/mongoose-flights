@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title><%= title %></title>
+</head>
+<body>
+
+    <table id="list">
+        <thead>
+            <tr>
+                <th>Airline</th>
+                <th>Airport</th>
+                <th>Flight Number</th>
+                <th>Departure</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td><%= flight.airline %></td>
+            <td><%= flight.airport %></td>
+            <td><%= flight.flightNo %></td>
+            <%if(flight.departs < new Date()){    %>
+                <td style="color: red;"><%= flight.departs %></td>
+                <%} else {%>
+                    <td><%= flight.departs %></td>
+                <%}%>
+            </tr>
+        </tbody>
+    </table>
+    <br><br><br><br>
+    <% if (flight.destination.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Airport</th>
+                <th>Arrival Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <%if(flight.destination.length){%>
+                <%flight.destination.forEach(function(dest){%>
+                    <tr></tr>
+                    <td><%=dest.airport%></td>
+                    <%if(dest.arrival< new Date()){    %>
+                        <td style="color: red;"><%= dest.arrival%></td>
+                        <%} else {%>
+                            <td><%= dest.arrival %></td>
+                        <%}%>
+                    </tr>
+                <%})}%>
+            
+        </tbody>
+    </table>
+
+    <% } else { %>
+        <h3>No Reviews Yet</h3>
+      <% } %>
+    <br><br><br><br>
+    <h3>Add Destination:</h3>
+    <form id="add-destination-form" method="POST" action="/flights/<%= flight._id %>/destinations">
+
+        <label>Airport:
+            <select name="airport">
+                <%validAirports.forEach(function(airport){%>
+                    <%if(flight.airport !== airport ){%>
+                    <%console.log(Object.values(flight.destination).includes(airport))%>
+                    <option value="<%=airport%>"><%=airport%></option>
+                <%}})%>
+            </select>  
+            <label>Arrival Date:
+                <input type="datetime-local" name="arrival" value="<%=departsDate%>">
+            </label>
+            <input type="submit" value="Add Destination">
+        </label>
+    </form>
+    <br><br>
+    <a href="/" style="align-self: auto">Back to Home</a>
+</body>
+</html>

@@ -10,13 +10,14 @@
 <body>
 
     <h1><%= title %></h1>
-  <table>
+  <table id="list">
     <thead>
       <tr>
         <th>Airline</th>
         <th>Airport</th>
         <th>Flight Number</th>
         <th>Departure</th>
+        <th>Show Flight</th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,7 @@
             <%} else {%>
                 <td><%= flight.departs %></td>
             <%}%>
+            <td><a href="/flights/<%= flight._id %>">DETAILS</a></td>
         </tr>
         <% }) %>
     </tbody>
