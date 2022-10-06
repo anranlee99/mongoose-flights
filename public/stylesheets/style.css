@@ -44,3 +44,9 @@ td{
   grid-template-columns: auto auto;
   gap: 1rem;
 }
+
+/* #ticket-tr {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+} */

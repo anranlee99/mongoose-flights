@@ -32,34 +32,36 @@
         </tbody>
     </table>
     <br><br><br><br>
-    <% if (flight.destination.length) { %>
+
+    <% if (tickets.length) { %>
+    <h3>Tickets:</h3>
     <table>
         <thead>
             <tr>
-                <th>Airport</th>
-                <th>Arrival Date</th>
+                <th>Seat</th>
+                <th>Price</th>
+                <!-- <th>Delete</th> -->
             </tr>
         </thead>
         <tbody>
-            
-                <%if(flight.destination.length){%>
-                <%flight.destination.forEach(function(dest){%>
-                    <tr></tr>
-                    <td><%=dest.airport%></td>
-                    <%if(dest.arrival< new Date()){    %>
-                        <td style="color: red;"><%= dest.arrival%></td>
-                        <%} else {%>
-                            <td><%= dest.arrival %></td>
-                        <%}%>
-                    </tr>
-                <%})}%>
-            
+            <%tickets.forEach(function(ticket){%>
+ 
+                <tr id="ticket-tr">
+
+                <td><%=ticket.seat%></td>
+                <td><%= ticket.price %></td>
+                <!-- <td><form action="/<%= flight._id %>?_method=DELETE" class="delete-form" method="POST">
+                    <div ><button type="submit">&#10060;</button>
+                </form> </td> -->
+                </tr>
+            <%})%>
         </tbody>
     </table>
 
     <% } else { %>
-        <h3>No Reviews Yet</h3>
+        <h3>No Tickets Yet</h3>
       <% } %>
+
     <br><br><br><br>
     <h3>Add Destination:</h3>
     <form id="add-destination-form" method="POST" action="/flights/<%= flight._id %>/destinations">
@@ -68,7 +70,6 @@
             <select name="airport">
                 <%validAirports.forEach(function(airport){%>
                     <%if(flight.airport !== airport ){%>
-                    <%console.log(Object.values(flight.destination).includes(airport))%>
                     <option value="<%=airport%>"><%=airport%></option>
                 <%}})%>
             </select>  
@@ -78,6 +79,8 @@
             <input type="submit" value="Add Destination">
         </label>
     </form>
+    <br><br>
+    <a href=<%=`/flights/${flight._id}/tickets/new`%> style="align-self: auto">Add a Ticket</a>
     <br><br>
     <a href="/" style="align-self: auto">Back to Home</a>
 </body>

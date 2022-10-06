@@ -1,4 +1,5 @@
 const Flight = require('../models/flight');
+const Ticket = require('../models/tickets');
 
 module.exports = {
     index,
@@ -29,6 +30,7 @@ function show(req, res){
     departsDate += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
     
     Flight.findById(req.params.id, function(err, flight) {
+
         let validAirports = ['AUS', 'DFW', 'DEN', 'LAX', 'SAN']
         validAirports = validAirports.filter(e => flight.airport !==e)
         Object.values(flight.destination).forEach(dest => validAirports = validAirports.filter(e => e!==dest.airport))
@@ -36,13 +38,17 @@ function show(req, res){
         flight.destination.sort(function(a,b){
             return a.arrival-b.arrival;
           });
+          Ticket.find({flight: flight._id}, function(err, tickets) {
+            // Now you can pass both the flight and tickets in the res.render call
+            res.render('flights/show', {
+                title: 'Showing Flight',
+                flight,
+                validAirports,
+                departsDate,
+                tickets
+            });
+          });
 
-        res.render('flights/show', {
-            title: 'Showing Flight',
-            flight,
-            validAirports,
-            departsDate
-        });
     });
 }
 

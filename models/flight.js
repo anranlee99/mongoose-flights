@@ -9,6 +9,7 @@ const destinationSchema = new Schema({
     arrival: Date
 })
 
+
 const flightSchema = new Schema({
     airline: {
         type: String,
